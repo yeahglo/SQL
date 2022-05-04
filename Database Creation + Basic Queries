@@ -1,0 +1,32 @@
+--In this project, I created a candy shop and answered some basic queries about it.
+
+CREATE TABLE candyshop (id INTEGER PRIMARY KEY, name TEXT, quantity INTEGER, price INTEGER, reviews_quantity INTEGER);
+
+INSERT INTO candyshop VALUES (1, "Salt Water Taffy", 5, 16, 76);
+INSERT INTO candyshop VALUES (2, "Fun Dip", 101, 4, 201);
+INSERT INTO candyshop VALUES (3, "Sour Patch Kids", 55, 7, 113);
+INSERT INTO candyshop VALUES (4, "Twizzlers", 15, 3, 57);
+INSERT INTO candyshop VALUES (5, "Snickers", 25, 2, 266);
+INSERT INTO candyshop VALUES (6, "M&Ms", 52, 2, 235);
+INSERT INTO candyshop VALUES (7, "Nerds", 110, 3, 201);
+INSERT INTO candyshop VALUES (8, "Reese's Pieces", 45, 4, 252);
+INSERT INTO candyshop VALUES (9, "Hershey's Bar", 124, 2, 357);
+INSERT INTO candyshop VALUES (10, "Kit Kat Bar", 67, 4, 166);
+INSERT INTO candyshop VALUES (11, "Butterfinger", 100, 2, 460);
+INSERT INTO candyshop VALUES (12, "Werther's Original Caramel", 10, 5, 67);
+INSERT INTO candyshop VALUES (13, "Jolly Rancher", 72, 4, 135);
+INSERT INTO candyshop VALUES (14, "Haribo Golbears", 37, 5, 257);
+INSERT INTO candyshop VALUES (15, "Toblerone", 60, 3, 188);
+
+--Show the database ordered by quantity in stock, from highest to lowest.
+SELECT * FROM candyshop
+ORDER BY quantity DESC;
+
+--Show the top 5 most-reviewed candies.
+SELECT * FROM candyshop
+ORDER BY reviews_quantity DESC
+LIMIT 5;
+
+--What's the average price of candy that has more than 50 pieces in stock?
+SELECT AVG(price) FROM candyshop
+WHERE quantity > 50;
