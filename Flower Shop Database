@@ -1,0 +1,17 @@
+-- Flower Shop Database
+
+CREATE TABLE flower_bouquets (id INTEGER PRIMARY KEY, bouquet_name TEXT, color_availability TEXT, quantity INTEGER, price REAL, same_day_delivery TEXT);
+
+INSERT INTO flower_bouquets VALUES (1, "Peach Delight", "Peach", 15, 35.99, "NO");
+INSERT INTO flower_bouquets VALUES (2, "I Love You Roses", "Red", 55, 45.99, "YES");
+INSERT INTO flower_bouquets VALUES (3, "I'm Sorry Tulips", "Assorted", 12, 29.99, "YES");
+INSERT INTO flower_bouquets VALUES (4, "Congratulations at Work", "Assorted", 27, 45.99, "YES");
+INSERT INTO flower_bouquets VALUES (5, "Thank You Lilies", "Pink", 8, 29.99, "NO");
+
+-- What bouquets are available for Same Day Delivery?
+SELECT * FROM flower_bouquets WHERE same_day_delivery = "YES";
+
+-- What's the total number of bundles available at this store?
+SELECT bouquet_name, SUM(quantity) AS bundle_quantity
+FROM flower_bouquets
+GROUP BY bouquet_name;
