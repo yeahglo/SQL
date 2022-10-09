@@ -1,0 +1,29 @@
+-- In this database, I queried an international store database to find out top performing products and locations, and categorize customers.
+
+#1. Which countries averaged a price of more than 2000 per customer?
+
+SELECT country,
+ROUND(AVG(price)) as avg_price
+FROM sales
+GROUP BY country
+HAVING avg_price > 2000;
+
+#2. Categorize each customer by amount they've spent at the store.
+
+SELECT name, price,
+    CASE
+        WHEN price < 2000
+            THEN "Casual Customer"
+        WHEN price > 3000 AND price < 7000
+            THEN "Serious Customer"
+        ELSE "VIP Customer"
+        END as "customer_category"
+FROM sales
+ORDER BY customer_category DESC;
+
+#3. Which product(s) grossed more than 100,000?
+
+SELECT product, SUM(price) as total_sum
+FROM sales
+GROUP BY product
+HAVING total_sum > 100000;
