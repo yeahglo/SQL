@@ -1,0 +1,34 @@
+In this project, I created 3 tables to showcase celebrities with their celeb spouses and their combined hobbies, using self-joins.
+
+-- I created a table of celebrities and their details.
+CREATE TABLE famous_people (id INTEGER PRIMARY KEY AUTOINCREMENT, fullname TEXT, occupation TEXT, age INTEGER); 
+INSERT INTO famous_people (fullname, occupation, age) VALUES ("Viola Davis", "Actor", 57);
+INSERT INTO famous_people (fullname, occupation, age) VALUES ("Meg Ryan", "Actress", 60);
+INSERT INTO famous_people (fullname, occupation, age) VALUES ("Tom Hanks", "Actor", 66);
+INSERT INTO famous_people (fullname, occupation, age) VALUES ("Denzel Washington", "Actor", 67);
+
+-- I created a table of celeb couples.
+CREATE TABLE spouses (id INTEGER PRIMARY KEY AUTOINCREMENT, person1_id INTEGER, person2_id INTEGER);
+INSERT INTO spouses (person1_id, person2_id) VALUES (1, 3);
+INSERT INTO spouses (person1_id, person2_id)VALUES (2, 4);
+
+-- I created a table of celeb couples with their combined hobby listed.
+CREATE TABLE married_hobbies (id INTEGER PRIMARY KEY AUTOINCREMENT, person1_id TEXT, person2_id TEXT, hobbies TEXT);
+INSERT INTO married_hobbies (person1_id, person2_id, hobbies) VALUES (1, 3, "gardening");
+INSERT INTO married_hobbies (person1_id, person2_id, hobbies) VALUES (2, 4, "dance choreography");
+
+#1. Show celebs with their spouses, side-by-side.
+SELECT a.fullname as celeb, b.fullname as celeb_spouse
+FROM spouses
+JOIN famous_people a
+ON a.id = person1_id
+JOIN famous_people b
+ON b.id = person2_id;
+
+2. Show celebs with their spouses and their combined hobby.
+SELECT a.fullname AS celeb, b.fullname AS celeb_spouse, hobbies AS married_hobby
+FROM married_hobbies
+JOIN famous_people a
+ON a.id = person1_id
+JOIN famous_people b
+ON b.id = person2_id;
