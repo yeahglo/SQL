@@ -1,0 +1,69 @@
+#In this project, I query a database with customer and order information to quantify items sold across time.
+
+#1. How many orders were placed in January?
+
+SELECT COUNT(orderID)
+FROM BIT_DB.JanSales
+WHERE length(orderID) = 6
+AND orderID <> 'Order_ID'
+
+#2. How many of those orders were for an iPhone?
+
+SELECT COUNT(orderID)
+FROM BIT_DB.JanSales
+WHERE Product = 'iPhone'
+AND length(orderID) = 6
+AND orderID <> 'Order ID'
+
+
+#3. Select the customer account numbers for all the orders that were placed in February.
+
+SELECT DISTINCT acctnum
+FROM BIT_DB.FebSales
+INNER JOIN BIT_DB.customers
+ON FebSales.orderID = customers.order_id
+WHERE length(orderID) = 6
+AND orderID <> 'Order ID'
+
+
+#4. Which product was the cheapest one sold in January, and what was the price?
+
+SELECT DISTINCT
+product,
+price
+FROM BIT_DB.JanSales
+GROUP BY product, price
+ORDER BY price ASC
+LIMIT 1
+
+
+
+#5. What is the total revenue for each product sold in January?.
+
+SELECT product,
+SUM(quantity)*price as revenue
+FROM BIT_DB.JanSales
+GROUP BY product
+
+
+#6. Which products were sold in February at 548 Lincoln St, Seattle, WA 98101? How many of each were sold, and what was the total revenue?
+
+SELECT product,
+SUM(quantity) as total_sold,
+SUM(quantity)*price as revenue
+FROM BIT_DB.FebSales
+WHERE location = '548 Lincoln St, Seattle, WA 98101'
+GROUP BY product
+
+
+#7. How many customers ordered more than 2 products at a time in February, and what was the average amount spent for those customers?
+
+SELECT
+COUNT(DISTINCT cust.acctnum) feb_total_cust,
+AVG(Quantity*Price) avg_amt
+FROM BIT_DB.FebSales Feb
+LEFT JOIN BIT_DB.customers cust
+ON Feb.orderID = cust.order_id
+WHERE Feb.Quantity > 2
+AND length(orderID) = 6
+AND orderID <> 'Order ID'
