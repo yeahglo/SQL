@@ -1,0 +1,84 @@
+# For this project, I downloaded a Spotify dataset from Kaggle.
+# Then I created a table to import that Spotify dataset.
+# From there, I was able to analyze the dataset using SQL.
+
+# Using SQL, I created this table:
+CREATE TABLE BIT_DB.Spotifydata (
+id integer PRIMARY KEY,
+artist_name varchar NOT NULL,
+track_name varchar NOT NULL,
+track_id varchar NOT NULL,
+popularity integer NOT NULL,
+danceability decimal(4,3) NOT NULL,
+energy decimal(4,3) NOT NULL,
+song_key integer NOT NULL,
+loudness decimal(5,3) NOT NULL,
+song_mode integer NOT NULL,
+speechiness decimal(5,4) NOT NULL,
+acousticness decimal(6,5) NOT NULL,
+instrumentalness text NOT NULL,
+liveness decimal(5,4) NOT NULL,
+valence decimal(4,3) NOT NULL,
+tempo decimal(6,3) NOT NULL,
+duration_ms integer NOT NULL,
+time_signature integer NOT NULL )
+
+# Then I imported the Spotify csv file into the table
+
+# After that, I explored the dataset using the following SQL queries.
+
+# 1. Who were the top ten artists by popularity and what was their average tempo and energy?
+
+SELECT artist_name,
+popularity,
+AVG(tempo),
+AVG(energy)
+FROM BIT_DB.Spotifydata
+GROUP BY artist_name
+ORDER BY popularity DESC
+LIMIT 10
+
+# 2. What was the speechiest track?
+
+SELECT MAX(speechiness), track_name
+FROM BIT_DB.Spotifydata
+
+# 3. What was the most common key used for all songs?
+
+SELECT song_key,
+COUNT(song_key) as times_used
+FROM BIT_DB.Spotifydata
+GROUP BY song_key
+ORDER BY times_used DESC
+LIMIT 1
+
+# 4. What was the longest song?
+
+SELECT MAX(duration_ms),
+track_name
+FROM BIT_DB.Spotifydata
+
+# 5. Which artists have the word "The" in their name?
+
+SELECT artist_name
+FROM BIT_DB.Spotifydata
+WHERE artist_name LIKE '%The%'
+
+# 6. List out all the tracks that had zero instrumentalness, along with their artist name and popularity.
+
+SELECT artist_name,
+track_name,
+popularity
+FROM BIT_DB.Spotifydata
+WHERE instrumentalness = 0.0
+GROUP BY track_name, artist_name
+ORDER BY popularity DESC
+
+# 7. Which three artists had the most songs on the list?
+
+SELECT COUNT(track_name) as total_tracks,
+artist_name
+FROM BIT_DB.Spotifydata
+GROUP BY artist_name
+ORDER BY total_tracks DESC
+LIMIT 3
