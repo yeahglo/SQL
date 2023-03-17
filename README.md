@@ -16,6 +16,8 @@ These projects consist of using SQL to create, query, and explore different data
 
 - <b>SQLiteStudio</b>
 
+[Back to Main Profile](https://github.com/yeahglo)
+
 <!-- <h2>Program walk-through:</h2>
 
 <p align="center">
@@ -23,6 +25,7 @@ Action: <br/>
 <img src=" img URL " height="80%" width="80%" alt=" alt tag"/>
 <br />
 </p>
+
 
  ```diff
 - text in red
