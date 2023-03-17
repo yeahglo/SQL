@@ -3,7 +3,7 @@
  <!-- ### [YouTube Demonstration](https://youtu.be/7eJexJVCqJo) -->
 
 <h2>Description</h2>
-These projects consist of using SQL to create, query, and explore different databases. 
+These projects consist of using SQL to organize, query, and explore different databases. 
 <br />
 
 
