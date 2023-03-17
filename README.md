@@ -15,6 +15,7 @@ These projects consist of using SQL to organize, query, and manipulate data.
 <h2>Environments Used</h2>
 
 - <b>SQLiteStudio</b>
+- <b>Khan Academy's Online SQL Editor</b>
 
 [Back to Main Profile](https://github.com/yeahglo)
 
