@@ -1,0 +1,150 @@
+#In this SQL code, I queried a digital media store's database which contains multiple tables for customer, employee, invoice, and media data. 
+
+--1. Listed customers' outside of the US, with their full names, customer IDs, and countries.
+
+SELECT c.CustomerId, c.Firstname, c.Lastname, c.Country
+FROM chinook.customers c
+WHERE Country <> "USA";
+
+
+--2. Listed customers only from Brazil
+
+SELECT *
+FROM chinook.customers
+WHERE Country = 'Brazil'
+
+
+--3. Listed customer invoices who are from Brazil, including their full names, invoice IDs, date of invoices, and billing countries.
+
+SELECT c.Firstname, c.Lastname, i.InvoiceId, i.InvoiceDate, i.BillingCountry
+FROM chinook.invoices i
+LEFT JOIN customers c ON c.CustomerId = i.CustomerId
+WHERE c.Country = 'Brazil';
+
+
+--4. Listed all employees from the database who are sales agents.
+
+SELECT *
+FROM chinook.employees e
+WHERE e.Title LIKE '%Sales%Agent%';
+
+
+--5. Listed out each distinct billing country from the invoices table.
+
+SELECT DISTINCT (i.BillingCountry) AS BillingCountry
+FROM chinook.invoices i
+ORDER BY BillingCountry;
+
+
+--6. Created a query to display invoices for each sales agent's full name, along with the customer's and employee's home countries.
+
+SELECT i.InvoiceId, e.EmployeeId, e.Firstname, e.Lastname, e.Country AS EmployeeCountry, c.Country AS CustomerCountry
+FROM chinook.customers c
+JOIN chinook.employees e ON c.SupportRepId = e.EmployeeId
+JOIN chinook.invoices i ON c.CustomerId = i.CustomerId;
+
+
+--7. Listed the invoice total, customer name, country, and sales agent for each invoice and customer.
+
+SELECT i.Total as InvoiceTotal, c.Firstname, c.Lastname, c.Country, e.Firstname, e.Lastname FROM chinook.invoices i
+JOIN chinook.customers c ON i.CustomerId = c.CustomerID
+JOIN chinook.employees e ON c.SupportRepId = e.EmployeeId;
+
+
+--8. Created a query to display how many invoices there were in 2009.
+
+SELECT COUNT(*) AS InvCount09
+FROM chinook.invoices
+WHERE InvoiceDate BETWEEN '2009-01-01' AND '2009-12-31';
+
+
+--9. Created a query to display the total sales for 2009.
+
+SELECT ROUND(SUM(Total),2) AS TotalSales
+FROM chinook.invoices
+WHERE InvoiceDate BETWEEN '2009-01-01' AND '2009-12-31';
+
+
+--10. Created a query that includes the purchased track name along with each invoice line ID.
+
+SELECT ii.InvoiceLineId, t.Name AS TrackName
+FROM chinook.invoice_items ii
+JOIN chinook.tracks t ON t.TrackId = ii.TrackId
+ORDER BY ii.InvoiceLineId;
+
+
+--11. Created a query that includes the purchased track name and artist name with each invoice line ID.
+
+SELECT ii.InvoiceLineId AS InvLineID, t.Name AS TrackName, ar.Name AS ArtistName
+FROM chinook.invoice_items ii
+
+LEFT JOIN chinook.tracks t ON t.TrackId = ii.TrackId
+INNER JOIN chinook.albums a ON t.AlbumId = a.AlbumId
+LEFT JOIN chinook.artists ar ON ar.ArtistId = a.ArtistId
+
+ORDER BY InvLineID;
+
+
+--12. Created a query that shows all tracks, and includes their album name, media type, and genre.
+
+SELECT t.Name as TrackName, a.Title as AlbumName, m.Name as MediaType, g.Name as Genre
+FROM chinook.tracks t
+
+JOIN chinook.albums a ON t.AlbumId = a.AlbumId
+JOIN chinook.media_types m ON t.MediaTypeId = m.MediaTypeId
+JOIN chinook.genres g ON g.GenreId = t.GenreId;
+
+
+--13. Displayed the total sales made by each sales agent.
+
+SELECT ROUND(SUM(i.total),2) AS TotalSales, e.Firstname, e.Lastname
+FROM chinook.invoices i
+
+JOIN chinook.customers c ON i.CustomerId = c.CustomerId
+JOIN chinook.employees e ON c.SupportRepId = e.EmployeeId
+
+WHERE e.Title LIKE '%Sales%Agent%'
+GROUP BY e.Firstname;
+
+
+--14. Determined which sales agent made the most dollars in sales in 2009.
+
+SELECT ROUND(SUM(i.total),2) as TotalSales, e.Firstname, e.Lastname
+FROM chinook.invoices i
+
+JOIN chinook.customers c ON i.CustomerId = c.CustomerId
+JOIN chinook.employees e ON c.SupportRepId = e.EmployeeId
+
+GROUP BY e.Lastname
+ORDER BY TotalSales DESC
+LIMIT 1;
+
+
+--15. Listed all artists that had a self-title track and album.
+
+SELECT ar.Name, t.Name, al.Title
+FROM chinook.tracks t
+
+JOIN chinook.albums al ON t.AlbumID = al.AlbumId
+JOIN chinook.artists ar ON ar.ArtistId = al.ArtistId
+
+WHERE t.Name = al.Title
+AND al.Title = ar.Name;
+
+
+--16. Listed every genre that exists in the database, along with its ID.
+
+SELECT DISTINCT(Name) AS Genres, GenreId
+FROM chinook.genres
+ORDER BY Genres ASC;
+
+
+--17. Listed all tracks that are in the Soundtracks genre.
+
+SELECT t.Name, g.Name, t.GenreId
+FROM chinook.tracks t
+
+INNER JOIN chinook.genres g ON t.GenreId = g.GenreId
+
+WHERE g.Name = 'Soundtrack'
+ORDER BY t.Name ASC;
