@@ -28,7 +28,6 @@ WHERE type = 'Movie'
 ORDER BY release_year ASC
 LIMIT 1;
 
-
 #6. How many movies and tv shows has each director directed?
 # Sort from most to least and leave off any projects with no director attributed to it.
 SELECT people.director, COUNT(info.title) as total_projects
